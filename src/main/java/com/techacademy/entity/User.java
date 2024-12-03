@@ -1,5 +1,8 @@
 package com.techacademy.entity;
 
+import org.hibernate.validator.constraints.Length; // 追加
+import org.springframework.transaction.annotation.Transactional;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,7 +10,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email; // 追加
+import jakarta.validation.constraints.Max; // 追加
+import jakarta.validation.constraints.Min; // 追加
+import jakarta.validation.constraints.NotEmpty; // 追加
+import jakarta.validation.constraints.NotNull; // 追加
 import lombok.Data;
 
 @Data
@@ -27,18 +37,36 @@ public class User {
 
     /** 名前。20桁。null不許可 */
     @Column(length = 20, nullable = false)
+    @NotEmpty // 追加
+    @Length(max=20) // 追加
     private String name;
 
     /** 性別。2桁。列挙型（文字列） */
     @Column(length = 2)
     @Enumerated(EnumType.STRING)
+    @NotNull // 追加
     private Gender gender;
 
     /** 年齢 */
+    @Min(0) // 追加
+    @Max(120) // 追加
     private Integer age;
 
     /** メールアドレス。50桁。null許可 */
     @Column(length = 50)
+    @Email // 追加
+    @Length(max=50) // 追加
     private String email;
+
+    @OneToOne(mappedBy="user")
+    private Authentication authentication;
+
+    @PreRemove
+    @Transactional
+    private void preRemove() {
+        if (authentication != null) {
+            authentication.setUser(null);
+        }
+    }
 
 }
