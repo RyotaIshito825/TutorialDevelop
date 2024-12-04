@@ -19,7 +19,8 @@
             <option value="" th:text="選択してください" th:selected="${user.gender == ''}">
             <option
                 th:each="item:${T(com.techacademy.entity.User.Gender).values()}"
-                th:value="${item}" th:text="${item}" th:selected="*{gender} == ${item}">
+                th:value="${item}" th:text="${item}"
+                th:selected="*{gender} == ${item}">
         </select>
         <span th:errors="*{gender}" class="err"></span>
         <br>
