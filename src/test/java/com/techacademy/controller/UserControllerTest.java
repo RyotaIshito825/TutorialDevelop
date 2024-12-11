@@ -30,7 +30,6 @@ import com.techacademy.entity.User;
 @ExtendWith(SpringExtension.class)
 class UserControllerTest {
     private MockMvc mockMvc;
-
     private final WebApplicationContext webApplicationContext;
 
     UserControllerTest(WebApplicationContext context) {

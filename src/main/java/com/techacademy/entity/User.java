@@ -50,6 +50,7 @@ public class User {
     /** 年齢 */
     @Min(0) // 追加
     @Max(120) // 追加
+    @NotNull
     private Integer age;
 
     /** メールアドレス。50桁。null許可 */
